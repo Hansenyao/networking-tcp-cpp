@@ -15,7 +15,7 @@ int main()
     // start tcp server
     TCPServer server(8088);
     if (!server.Start()) {
-        std::cout << "Failed to start TCP server, exit!" << std::endl;
+        std::cout << "Failed to start TCP server, error: " << strerror(errno) << std::endl;
         return -1;
     }
 
