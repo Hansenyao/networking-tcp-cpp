@@ -24,9 +24,20 @@ void client_handle_thread(int client_fd)
             std::cout << "Client disconnected" << std::endl;
             break;
         }
-        else {
-            perror("recv failed");
-            break;
+        else { // bytes < 0
+            if (errno == EINTR) {
+                // Interrupted by signal
+                continue;
+            }
+            else if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                // No data, try it in a short later
+                usleep(1000);
+                continue;
+            }
+            else {
+                perror("recv failed");
+                break;
+            }
         }
     }
 }
