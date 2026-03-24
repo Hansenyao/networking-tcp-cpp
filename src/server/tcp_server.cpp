@@ -1,5 +1,6 @@
 #include "tcp_server.h"
 #include <iostream>
+#include <fcntl.h>
 
 const int BUFFER_SIZE = 2048;
 bool TCPServer::stop_  = false;
@@ -38,16 +39,16 @@ void server_accept_thread(int server_fd)
         socklen_t client_len = sizeof(client_addr);
 
         int client_fd = accept(server_fd, (sockaddr*)&client_addr, &client_len);
-        if (client_fd < 0) {
-            perror("accpet failed");
-            continue;
+        if (client_fd > 0) {
+            std::cout << "New client connected, ip: " << inet_ntoa(client_addr.sin_addr) << std::endl;
+
+            // create a thread to handle request
+            std::thread t(client_handle_thread, client_fd);
+            t.detach();
         }
-
-        std::cout << "New client connected, ip: " << inet_ntoa(client_addr.sin_addr) << std::endl;
-
-        // create a thread to handle request
-        std::thread t(client_handle_thread, client_fd);
-        t.detach();
+        
+        // 50ms
+        usleep(50*1000);
     }
 }
 
@@ -81,6 +82,10 @@ bool TCPServer::Start()
     int opt = 1;
     setsockopt(fd_, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
+    // Set No-Block
+    int flags = fcntl(fd_, F_GETFL, 0);
+    fcntl(fd_, F_SETFL, flags | O_NONBLOCK);
+
     // Configure address
     sockaddr_in addr{};
     addr.sin_family = AF_INET;
@@ -101,7 +106,7 @@ bool TCPServer::Start()
 
     // create a thread to listen clients requests
     listen_thread_ = std::thread(server_accept_thread, fd_);
-    return false;
+    return true;
 }
 
 void TCPServer::Close()

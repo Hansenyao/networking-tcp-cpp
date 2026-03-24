@@ -2,15 +2,14 @@
 #include <iostream>
 #include <csignal>
 
-std::atomic<bool> running(true);
-
+// handling Ctrl + C
+volatile sig_atomic_t running = 1;
 void signal_handler(int) {
-    running = false;
+    running = 0;
 }
 
 int main()
 {
-    // handling Ctrl + C
     signal(SIGINT, signal_handler);
 
     // start tcp server
@@ -23,8 +22,9 @@ int main()
     // main loop, waiting user input Ctrl + C to quit
     std::cout << "Press Ctrl + C to quit..." << std::endl;
     while (running) {
-        sleep(1);
+        usleep(100*1000);
     };
+    std::cout << std::endl;
 
     // close tcp server before end
     server.Close();
