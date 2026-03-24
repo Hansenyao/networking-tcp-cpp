@@ -30,7 +30,7 @@ void client_handle_thread(int client_fd)
                 continue;
             }
             else if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                // No data, try it in a short later
+                // No data, try it again in a short later
                 usleep(1000);
                 continue;
             }

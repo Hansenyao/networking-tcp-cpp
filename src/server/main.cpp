@@ -20,7 +20,7 @@ int main()
     }
 
     // main loop, waiting user input Ctrl + C to quit
-    std::cout << "Press Ctrl + C to quit..." << std::endl;
+    std::cout << "Press Ctrl + C to quit..." << std::endl << std::endl;
     while (running) {
         usleep(100*1000);
     };
