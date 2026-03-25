@@ -8,7 +8,7 @@
 
 class TCPServer {
 public:
-    TCPServer(const uint32_t port, size_t thread_pool_size = 4);
+    TCPServer(const uint32_t port, size_t thread_pool_size = MAX_THREADS_NUM);
     virtual ~TCPServer();
 public:
     bool Start();

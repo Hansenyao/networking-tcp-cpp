@@ -1,8 +1,5 @@
 #include "thread_pool.h"
 
-// The max number of threads
-#define MAX_THREADS_NUM 10
-
 ThreadPool::ThreadPool(size_t num_threads)
  : stop_(false)
 {

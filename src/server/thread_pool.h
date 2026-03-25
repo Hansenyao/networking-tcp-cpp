@@ -8,6 +8,9 @@
 #include <mutex>
 #include <condition_variable>
 
+// The max number of threads
+#define MAX_THREADS_NUM 5
+
 // Server's thread task data structure
 struct Task {
     void (*func)(int);      // The pointer of the task function
