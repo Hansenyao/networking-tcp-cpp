@@ -43,7 +43,7 @@ void client_handle_thread(int client_fd)
 }
 
 // Server listen thread
-void server_accept_thread(int server_fd)
+void server_accept_thread(int server_fd, ThreadPool* pool)
 {
     while (!TCPServer::stop_) {
         sockaddr_in client_addr{};
@@ -53,20 +53,20 @@ void server_accept_thread(int server_fd)
         if (client_fd > 0) {
             std::cout << "New client connected, ip: " << inet_ntoa(client_addr.sin_addr) << std::endl;
 
-            // create a thread to handle request
-            std::thread t(client_handle_thread, client_fd);
-            t.detach();
+            // submit client handling to thread pool
+            pool->AddTask(client_handle_thread, client_fd);
         }
-        
+
         // 50ms
         usleep(50*1000);
     }
 }
 
-TCPServer::TCPServer(const uint32_t port) 
+TCPServer::TCPServer(const uint32_t port, size_t thread_pool_size)
  : fd_(-1)
  , port_(port)
-{ 
+ , thread_pool_(thread_pool_size)
+{
 }
 
 TCPServer::~TCPServer() 
@@ -116,7 +116,7 @@ bool TCPServer::Start()
     }
 
     // create a thread to listen clients requests
-    listen_thread_ = std::thread(server_accept_thread, fd_);
+    listen_thread_ = std::thread(server_accept_thread, fd_, &thread_pool_);
     return true;
 }
 
@@ -125,6 +125,9 @@ void TCPServer::Close()
     // Waiting for listen thread to end
     stop_ = true;
     listen_thread_.join();
+
+    // Shutdown thread pool
+    thread_pool_.Stop();
 
     // Close socket
     close(fd_);
