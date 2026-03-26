@@ -1,6 +1,7 @@
 #include "tcp_server.h"
 #include <iostream>
 #include <csignal>
+#include <cstring>
 
 // handling Ctrl + C
 volatile sig_atomic_t running = 1;

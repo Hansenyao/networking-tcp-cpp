@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string>
 #include <thread>
+#include <cstring>
 
 std::atomic<bool> running(true);
 
