@@ -7,7 +7,7 @@ target_link_libraries(tcp-client-console PRIVATE
 )
 
 include_directories(
-    ../include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../client-lib
 )
 
 target_link_directories(tcp-client-console PRIVATE
