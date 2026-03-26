@@ -30,22 +30,38 @@ networking-tcp-cpp/
 
 ## Dependencies
 
+> This project is primarily developed and tested on **Linux**. macOS is also supported.
+
 | Dependency | Version | Purpose |
 |------------|---------|---------|
 | CMake | >= 3.20 | Build system |
-| C++ compiler | C++17 | clang++ (macOS) / g++ (Linux) |
+| g++ | C++17 | Compiler |
 | GTest | any | Unit testing (only needed when `BUILD_TESTS=ON`) |
 
-### Install dependencies on macOS
+### Ubuntu / Debian
+
+```bash
+sudo apt update
+sudo apt install -y cmake g++ libgtest-dev
+```
+
+### CentOS / RHEL 8+
+
+```bash
+sudo dnf install -y cmake gcc-c++ gtest-devel
+```
+
+### CentOS 7
+
+```bash
+sudo yum install -y gcc-c++ gtest-devel
+pip3 install cmake --upgrade
+```
+
+### macOS
 
 ```bash
 brew install cmake googletest
-```
-
-### Install dependencies on Ubuntu/Debian
-
-```bash
-sudo apt install cmake libgtest-dev
 ```
 
 ## Build
@@ -64,7 +80,7 @@ cmake --build build
 cmake --build build --target install
 ```
 
-This installs `libtcp-client.dylib` to `output/lib/` and `tcp_client.h` to `output/inc/`.
+This installs `libtcp-client.so` (Linux) / `libtcp-client.dylib` (macOS) to `output/lib/` and `tcp_client.h` to `output/inc/`.
 
 ## Run
 
@@ -106,7 +122,7 @@ cmake --build build
 
 # Run all test cases
 cd build
-DYLD_LIBRARY_PATH=../output/lib ctest --output-on-failure
+LD_LIBRARY_PATH=../output/lib ctest --output-on-failure
 ```
 
 Expected output:
