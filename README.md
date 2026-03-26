@@ -68,16 +68,18 @@ brew install cmake googletest
 
 ```bash
 # Configure
-cmake -S . -B build
+$ mkdir build
+$ cd build
+$ cmake ..
 
 # Build all targets
-cmake --build build
+$ make
 ```
 
 ### Install tcp-client library and header
 
 ```bash
-cmake --build build --target install
+$ make install
 ```
 
 This installs `libtcp-client.so` (Linux) / `libtcp-client.dylib` (macOS) to `output/lib/` and `tcp_client.h` to `output/inc/`.
@@ -87,7 +89,7 @@ This installs `libtcp-client.so` (Linux) / `libtcp-client.dylib` (macOS) to `out
 ### Start the server
 
 ```bash
-./build/src/server/tcp-server
+./src/server/tcp-server
 ```
 
 The server listens on port **8088** by default. Press `Ctrl+C` to stop.
@@ -95,10 +97,10 @@ The server listens on port **8088** by default. Press `Ctrl+C` to stop.
 ### Start the client console
 
 ```bash
-./build/src/client-console/tcp-client-console <server_ip> <port>
+./src/client-console/tcp-client-console <server_ip> <port>
 
 # Example
-./build/src/client-console/tcp-client-console 127.0.0.1 8088
+./src/client-console/tcp-client-console 127.0.0.1 8088
 ```
 
 Press `Q` to disconnect and exit.
@@ -108,8 +110,8 @@ Press `Q` to disconnect and exit.
 ### Build with tests enabled
 
 ```bash
-cmake -S . -B build -DBUILD_TESTS=ON
-cmake --build build
+$ cmake .. -DBUILD_TESTS=ON
+$ make
 ```
 
 ### Run tests
@@ -118,11 +120,10 @@ cmake --build build
 
 ```bash
 # Start the server first
-./build/src/server/tcp-server &
+$ ./src/server/tcp-server
 
 # Run all test cases
-cd build
-LD_LIBRARY_PATH=../output/lib ctest --output-on-failure
+$ ctest
 ```
 
 Expected output:

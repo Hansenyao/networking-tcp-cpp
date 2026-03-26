@@ -4,6 +4,7 @@
 #include <string>
 #include <thread>
 #include <cstring>
+#include <atomic>
 
 std::atomic<bool> running(true);
 
