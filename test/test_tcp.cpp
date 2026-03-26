@@ -4,7 +4,7 @@
 /**
  * @brief Test cases for TCP client
  * 
- * Need to run the TCP server (./build/src/server/tcp_server) in the local before running this test!
+ * Need to run the TCP server (./build/src/server/tcp-server) in the local before running this test!
  * 
  */
 const char* VALID_SVR_IP = "127.0.0.1";
