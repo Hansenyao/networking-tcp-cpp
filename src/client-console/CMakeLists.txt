@@ -4,6 +4,7 @@ add_executable(tcp-client-console
 
 target_link_libraries(tcp-client-console PRIVATE
     -ltcp-client
+    pthread
 )
 
 include_directories(
