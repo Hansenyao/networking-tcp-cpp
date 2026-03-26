@@ -1,6 +1,7 @@
 #include "tcp_server.h"
 #include <iostream>
 #include <fcntl.h>
+#include <cstring>
 
 const int BUFFER_SIZE = 2048;
 bool TCPServer::stop_  = false;
