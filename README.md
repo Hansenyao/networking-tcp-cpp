@@ -105,6 +105,8 @@ The server listens on port **8088** by default. Press `Ctrl+C` to stop.
 
 Press `Q` to disconnect and exit.
 
+![A running image](./img/run.png)
+
 ## Testing
 
 ### Build with tests enabled
@@ -131,6 +133,8 @@ Expected output:
 ```
 100% tests passed, 0 tests failed out of 8
 ```
+
+![A test image](./img/test.png)
 
 ## Future Improvements
 
